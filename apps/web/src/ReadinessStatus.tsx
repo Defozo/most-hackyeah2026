@@ -1,0 +1,10 @@
+import { useApp } from './context';
+import { readinessDetails } from './readiness-status';
+import { nameOf, timeOf } from './types';
+import { Badge, Notice, Panel, SectionHeading } from './ui';
+import { ModelValidationNotice } from './ModelValidationNotice';
+
+export function ReadinessStatus(){
+  const {snapshot}=useApp();const {parameterIssues,modes,latestTrial}=readinessDetails(snapshot);
+  return <Panel><SectionHeading title="Aktualność parametrów i prób" action={<Badge tone={parameterIssues.length||modes.some(row=>!row.ready)?'amber':'green'}>{parameterIssues.length+modes.filter(row=>!row.ready).length} wymagających przeglądu</Badge>}/><ModelValidationNotice validation={snapshot.modelValidation} model={snapshot.model}/><p>Ostatni odbiór próby: {latestTrial?`${timeOf(latestTrial.approvedAt)}, ${nameOf(modes.find(row=>row.mode.id===latestTrial.modeId)?.mode)}`:'brak zapisanej próby'}.</p>{parameterIssues.length>0&&<><h3>Parametry wymagające źródła lub daty</h3><ul>{parameterIssues.map(issue=><li key={issue.id}><strong>{issue.name}</strong>: {issue.parameters}. {issue.reason}</li>)}</ul></>}<div className="table-scroll"><table><thead><tr><th>Tryb</th><th>Ostatnia próba</th><th>Bieżące potwierdzenie</th><th>Wymagana aktualizacja</th></tr></thead><tbody>{modes.map(({mode,trial,updates,ready,excluded})=><tr key={mode.id}><td>{nameOf(mode)}</td><td>{trial?<>{timeOf(trial.approvedAt)}<small>Model v{trial.modelRevision}; procedura v{trial.procedureVersion}</small></>:'Brak próby'}</td><td><Badge tone={ready?'green':'amber'}>{excluded?'Wykluczony z planowania':!trial?'Nie sprawdzono':trial.current!==true?'Historyczna lub bez ważnego testu':trial.requiresModelReview||updates.length?'Wymaga przeglądu parametrów':'Aktualna próba'}</Badge></td><td>{updates.length?<ul>{updates.map((update,index)=><li key={index}>{update}</li>)}</ul>:'Nie wykryto rozbieżności w zapisanym zakresie.'}</td></tr>)}</tbody></table></div><Notice>Data sprawdzenia i wynik próby nie są automatycznym zatwierdzeniem nowych parametrów. Aktualizację modelu i źródeł zatwierdza właściciel.</Notice></Panel>;
+}

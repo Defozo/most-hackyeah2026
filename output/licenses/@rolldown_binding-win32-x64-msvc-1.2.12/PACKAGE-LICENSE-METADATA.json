@@ -1,0 +1,10 @@
+{
+  "name": "@rolldown/binding-win32-x64-msvc",
+  "version": "1.2.12",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rolldown/rolldown.git",
+    "directory": "packages/rolldown"
+  }
+}

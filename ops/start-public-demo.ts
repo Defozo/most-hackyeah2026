@@ -1,0 +1,15 @@
+import { buildApp } from '../apps/api/src/app.js';
+import { resolve } from 'node:path';
+import { mkdir } from 'node:fs/promises';
+import fastifyStatic from '@fastify/static';
+const origin = process.env.MOST_PUBLIC_DEMO_ORIGIN;
+if(!origin||!/^https:\/\/[a-z0-9.-]+$/.test(origin))throw new Error('Set MOST_PUBLIC_DEMO_ORIGIN to the dedicated HTTPS demo origin.');
+if(!process.env.MOST_SIGNING_PRIVATE_KEY)throw new Error('Inject MOST_SIGNING_PRIVATE_KEY through psst.');
+if(process.env.AI_PROVIDER&&process.env.AI_PROVIDER!=='none'||process.env.PUBLIC_IMPORT_ENABLED==='true')throw new Error('Public judging demo must not enable paid or external import integrations.');
+const app=await buildApp({dataDir:resolve('data/public-demo'),staticDir:resolve('artifacts/private/public-demo/web-release'),trustedOrigins:[origin],secureCookies:true,publicDemo:true,logger:true});
+await mkdir(resolve('output/public'),{recursive:true});
+await app.register(fastifyStatic,{root:resolve('output/public'),prefix:'/materialy/',decorateReply:false,index:['index.html'],wildcard:true,serveDotFiles:false,acceptRanges:true});
+app.get('/materialy',(_request,reply)=>reply.redirect('/materialy/'));
+await app.listen({host:'127.0.0.1',port:8127});
+process.stdout.write(JSON.stringify({ready:true,origin,port:8127,synthetic:true})+'\n');
+for(const signal of ['SIGINT','SIGTERM'] as const)process.on(signal,()=>{void app.close().then(()=>process.exit(0));});

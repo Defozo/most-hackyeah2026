@@ -1,0 +1,18 @@
+import { cp, readFile,writeFile,mkdir,unlink } from 'node:fs/promises';
+import { resolve,join,relative } from 'node:path';
+import { randomUUID } from 'node:crypto';
+import { spawnSync } from 'node:child_process';
+const source=(await readFile('artifacts/latest-backup-path.txt','utf8')).trim();
+const target=resolve('artifacts/private',`incomplete-backup-${randomUUID()}`);
+await cp(source,target,{recursive:true,errorOnExist:true,force:false});
+const manifest=JSON.parse(await readFile(join(target,'manifest.json'),'utf8'));
+const evidence=manifest.files.find((f:any)=>f.path.startsWith('evidence/'));
+if(!evidence)throw new Error('Próba wymaga kopii zawierającej dowód.');
+const missing=resolve(target,evidence.path);
+if(relative(target,missing).startsWith('..'))throw new Error('Ścieżka dowodu poza kopią próbną.');
+await unlink(missing);
+const child=spawnSync(process.execPath,['--import','tsx','ops/cli.ts','restore-test',target],{encoding:'utf8',windowsHide:true});
+const message=child.stderr?.trim()??String(child.error??'');
+const expectedMissingFile=evidence.path.split(/[\\/]/).at(-1);
+const result={at:new Date().toISOString(),case:'Brak załącznika w kopii',expected:'Odtworzenie odrzucone przed uruchomieniem instancji',passed:child.status===1&&message.includes(expectedMissingFile)&&/ENOENT|no such file|not found|Naruszona integralność/.test(message),status:child.status,message};
+await writeFile('artifacts/restore-negative.json',JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));if(!result.passed)process.exitCode=1;

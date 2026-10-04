@@ -1,0 +1,9 @@
+{
+  "name": "filelist",
+  "version": "1.0.6",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mde/filelist.git"
+  }
+}
