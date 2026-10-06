@@ -1,18 +1,38 @@
 # MOST: ciągłość lokalnych usług
 
-MOST pomaga koordynatorowi lokalnych usług zaplanować pracę podczas awarii zasilania, łączności lub systemów IT. Pokazuje wspólne przyczyny awarii, porównuje wykonalne plany przy ograniczonej obsadzie i wyposażeniu, a następnie prowadzi zespół przez przydział zadań i sprawdzenie rezultatu.
+MOST pomaga koordynatorowi gminy lub punktu pomocy ustalić, co uruchomić najpierw podczas awarii zasilania, łączności lub systemów IT. Łączy zależności usług z dostępnością ludzi, sprzętu i zapasów, wyznacza plan w granicach tych zasobów i prowadzi zespół przez wykonanie oraz osobne sprawdzenie rezultatu.
 
 **DEFOZO SOFTWARE HOUSE | Michał Kiełtyka**
 
-[Demo w przeglądarce](https://phones-hwy-punch-contributing.trycloudflare.com/demo) · [Film i prezentacja](https://phones-hwy-punch-contributing.trycloudflare.com/materialy/) · [Projekt w HackTribe](https://hackyeah2026.hacktribe.co/most-ciaglosc-lokalnych-uslug/)
+[Film i prezentacja](https://hackyeah-2026-projekty.defozo.chatgpt.site/#defence) · [Uruchomienie lokalne](#uruchomienie-lokalne) · [Projekt w HackTribe](https://hackyeah2026.hacktribe.co/most-ciaglosc-lokalnych-uslug/)
 
 ## Do czego służy
 
 Koordynator gminy, punktu pomocy lub lokalnej infrastruktury może opisać usługi, ich minimalną wydajność, zależności, personel, sprzęt i zapasy. MOST pozwala sprawdzić, czy dwa zapasowe kanały łączności nie zależą od tego samego routera, czy jeden agregat nie otrzymał sprzecznych przydziałów oraz jak niepotwierdzona dostępność osoby zmienia wynik planu.
 
-Aplikacja obejmuje import JSON/CSV, szkice z dokumentów, graf zależności, planowanie zasobów, porównanie wariantów, meldunki ze źródłem i czasem, zatwierdzanie przydziałów, procedury, testy rezultatu oraz eksport dziennika. Ukończenie zadania i potwierdzenie działania usługi są oddzielnymi krokami.
+| Decyzja podczas awarii | Wsparcie w MOST |
+| --- | --- |
+| Który zapasowy wariant rzeczywiście jest niezależny? | Graf pokazuje wspólne zależności, takie jak router lub zasilanie współdzielone przez dwa kanały łączności |
+| Komu przydzielić ludzi i sprzęt? | Plan uwzględnia obsadę i wyposażenie w kolejnych przedziałach czasu, zużycie zapasów, minima usług i priorytety |
+| Którą niepewną informację sprawdzić najpierw? | Porównanie wariantów dostępności pokazuje wpływ potwierdzenia zasobu na plan i usługominuty; niepotwierdzone zasoby pozostają warunkowe |
+| Czy wykonana czynność przywróciła usługę? | Oddzielny test rezultatu ma własny wynik, czas ważności, wersję procedury i dowody |
 
-Przygotowana PWA przechowuje model, procedury i solver na urządzeniu. Po utracie serwera można przeliczyć propozycję, zapisać meldunek i działać w wcześniej przyznanej lokalnej puli. Nowe globalne rezerwacje wymagają połączenia z serwerem. Po powrocie łączności aplikacja uzgadnia kolejkę i pokazuje konflikty.
+Model można przygotować z JSON/CSV lub szkiców z dokumentów. Meldunki zachowują
+źródło i czas, przydziały wymagają zatwierdzenia, a dziennik pozwala odtworzyć
+przebieg decyzji i działań. Ukończenie zadania i potwierdzenie działania usługi
+są oddzielnymi krokami.
+
+## Praca po utracie połączenia
+
+Przygotowana PWA przechowuje model, procedury i solver na urządzeniu. Pozwala
+przeliczyć lokalną propozycję, zapisać meldunek oraz kontynuować zadania w wcześniej
+przyznanej lokalnej puli. Nowe globalne rezerwacje wymagają serwera. Po powrocie
+łączności aplikacja uzgadnia kolejkę i pokazuje konflikty, także po odtworzeniu
+serwera z kopii. Rdzeń planowania i przygotowane procedury działają bez usługi AI.
+
+Przed użyciem operacyjnym trzeba przygotować i sprawdzić konkretne urządzenia,
+potwierdzić zasoby oraz zatwierdzić procedury. Demo ilustruje ten proces na danych
+syntetycznych; wynik modelu nie jest potwierdzeniem działania infrastruktury.
 
 ## Uruchomienie lokalne
 

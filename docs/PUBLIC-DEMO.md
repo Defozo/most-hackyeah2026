@@ -1,6 +1,8 @@
 # Publiczna demonstracja MOST
 
-Adres demonstracji znajduje się w [README.md](../README.md). Przy uruchomieniu własnego tunelu skrypt zapisuje jego aktualny adres i wynik testu w lokalnym pliku `DEMO_ACCESS.json`. Wejście `/demo` tworzy własną syntetyczną organizację, administratora ćwiczenia i sesję przeglądarki. Nie wymaga konta jurora ani współdzielonego hasła. Przydziały, meldunki i czynności innych odwiedzających nie wchodzą do tego ćwiczenia.
+[Film i prezentacja](https://hackyeah-2026-projekty.defozo.chatgpt.site/#defence) są dostępne niezależnie od uruchomienia backendu. Dawny adres `phones-hwy-punch-contributing.trycloudflare.com` nie rozwiązywał się w DNS podczas sprawdzenia 6 października 2026. Poniższa instrukcja opisuje uruchomienie własnej demonstracji.
+
+Przy uruchomieniu własnego tunelu skrypt zapisuje jego aktualny adres i wynik testu w lokalnym pliku `DEMO_ACCESS.json`. Wejście `/demo` tworzy własną syntetyczną organizację, administratora ćwiczenia i sesję przeglądarki. Nie wymaga konta odwiedzającego ani współdzielonego hasła. Przydziały, meldunki i czynności innych odwiedzających nie wchodzą do tego ćwiczenia.
 
 ## Uruchomienie i restart
 
